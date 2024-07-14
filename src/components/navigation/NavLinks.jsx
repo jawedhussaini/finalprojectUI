@@ -1,0 +1,38 @@
+import { Link } from "react-router-dom";
+
+const linkStyles = "hover:text-red focus:text-red focus";
+// ring-offset-gray-600
+
+function NavLinks({ onToggleNav, styles }) {
+  return (
+    <ul className={styles}>
+      <li>
+        <Link to="/" className={linkStyles} onClick={onToggleNav}>
+          Home
+        </Link>
+      </li>
+      <li>
+        <Link to="/about" className={linkStyles} onClick={onToggleNav}>
+          About
+        </Link>
+      </li>
+      <li>
+        <Link to="/gallery" className={linkStyles} onClick={onToggleNav}>
+          Gallery
+        </Link>
+      </li>
+      <li>
+        <Link to="/blog" className={linkStyles} onClick={onToggleNav}>
+          Blog
+        </Link>
+      </li>
+      <li>
+        <Link to="/contact" className={linkStyles} onClick={onToggleNav}>
+          Contact
+        </Link>
+      </li>
+    </ul>
+  );
+}
+
+export default NavLinks;
