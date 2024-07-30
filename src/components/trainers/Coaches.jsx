@@ -26,11 +26,6 @@ function Coaches() {
  
       const response = await fetch(
         `${API}/coaches?populate=*`,
-        {
-          headers: {
-            authorization: `Bearer ${getToken()}`,
-          },
-        }
       );
       if (!response.ok) {
         throw new Error(response.status);
@@ -54,7 +49,7 @@ function Coaches() {
 
       
          {coatch?.map((item) => (
-             <div className="flex cursor-pointer flex-col">
+             <div key={item.id} className="flex cursor-pointer flex-col">
              
         <div
           className={`${imageBoxStyles} flex items-center justify-center`}

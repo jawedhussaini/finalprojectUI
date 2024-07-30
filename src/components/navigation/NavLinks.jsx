@@ -1,13 +1,23 @@
 import { Link } from "react-router-dom";
+import { getToken } from "../../utill/helpers";
+import { useEffect, useState } from "react";
 
 const linkStyles = "hover:text-red focus:text-red focus";
 // ring-offset-gray-600
 
 function NavLinks({ onToggleNav, styles }) {
+  const [tableShow,setTableShow]=useState()
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTableShow(!!getToken());
+    }, 100);
+
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+  }, []);
   return (
     <ul className={styles}>
       <li>
-        <Link to="/" className={linkStyles} onClick={onToggleNav}>
+        <Link to="/" className={linkStyles}  onClick={onToggleNav}>
           Home
         </Link>
       </li>
@@ -31,6 +41,14 @@ function NavLinks({ onToggleNav, styles }) {
           Contact
         </Link>
       </li>
+      {tableShow && (
+        <li>
+          <Link to="/tables" className={linkStyles} onClick={onToggleNav}>
+            Tables
+          </Link>
+        </li>
+      )}
+     
     </ul>
   );
 }

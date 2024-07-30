@@ -82,7 +82,7 @@ function Sidenav({ color }) {
 
   return (
     <>
-      <Menu theme="dark" className="sidebarNav" style={{ background:"black" }} mode="inline" defaultSelectedKeys={['1']}>
+      <Menu theme="dark" className="sidebarNav" mode="inline" defaultSelectedKeys={['1']}>
         {
           items.map(item => {
             return <Menu.Item  key={item.key} icon={<BiTable />}>

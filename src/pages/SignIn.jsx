@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {  useNavigate } from "react-router-dom";
 import {
   Layout,
@@ -9,8 +9,9 @@ import {
   message,
 } from "antd";
 
-import { getToken, setToken } from "../utill/helpers";
+import { getToken, setToken, setUserAllData } from "../utill/helpers";
 import { useAuthContext } from "../context/authContext";
+import { GloblaContext } from "../context";
 
 
 
@@ -27,17 +28,20 @@ const SignIn = () => {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API;
   const [loading,setLoading]=useState(false)
+  const [email,setEmail]=useState(null)
+  const [password,setPassword]=useState(null)
+  const {  setUserPOsition } = useContext(GloblaContext);
 
   const { setUser } = useAuthContext();
 
   // const [ error, setError ] = useState("");
 
-  const onFinish = async (values) => {
+  const onFinish = async () => {
     setLoading(true)
     try {
       const value = {
-        identifier: values.email,
-        password: values.password
+        identifier: email,
+        password: password
       };
   
       const response = await fetch(`${API}/auth/local?populate=*`, {
@@ -55,6 +59,8 @@ const SignIn = () => {
       } else {
         setToken(data.jwt);
         setUser(data.user);
+        setUserAllData(data.user)
+        console.log(data.user)
         message.success(`Welcome back, ${data.user.username}`);
         navigate("/tables", { replace: true });
       }
@@ -73,64 +79,58 @@ const SignIn = () => {
 
   return (
     <>
-      <Layout className="layout-default layout-signin" style={{ height: '100vh', background:"black" }}>
-        <Content className="signin" >
+    <div class="min-h-screen w-full h-full bg-gray-100 text-gray-900 flex justify-center">
+    <div class="m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
+        <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
+           
+            <div class="mt-12 flex flex-col items-center">
+                <h1 class="text-2xl xl:text-3xl font-extrabold">
+                    Sign IN
+                </h1>
+                <div class="w-full flex-1 mt-8">
+                 
 
-          <div className="sign-in-container">
+                    <div class="my-12 border-b text-center">
+                        <div
+                            class="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
+                            sign IN with E-mail
+                        </div>
+                    </div>
 
-          <Title className="mb-15" style={{ color:"rgb(127, 31, 32)"}}>Sign In</Title>
-          <Title className="font-regular text-muted" style={{ color:"rgb(127, 31, 32)"}} level={5}>
-            Enter your email and password to sign in
-          </Title>
-          <Form
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            layout="vertical"
-            className="row-col"
-          >
-            <Form.Item
-              className="username"
-              label="Email"
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your email!",
-                },
-              ]}
-            >
-              <Input placeholder="Email" />
-            </Form.Item>
-
-            <Form.Item
-              className="username"
-              label="Password"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Input.Password placeholder="Password" />
-            </Form.Item>
-
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={loading}
-                style={{ width: "100%",color:"white",background:"rgb(127, 31, 32)"}}
+                    <div class="mx-auto max-w-xs">
+                        <input
+                            class="w-full px-8 py-4 rounded-lg font-medium bg-gray-50 border border-gray-200 placeholder-gray-200 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                            type="email" placeholder="Email"
+                            onChange={(e)=>setEmail(e.target.value)} />
+                        <input
+                            class="w-full px-8 py-4 rounded-lg font-medium bg-gray-50 border border-gray-200 placeholder-gray-200 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+                            type="password" placeholder="Password"
+                            onChange={(e)=>setPassword(e.target.value)} />
+                        <button
+                        onClick={onFinish}
+                            class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                            <svg class="w-6 h-6 -ml-2" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                                <circle cx="8.5" cy="7" r="4" />
+                                <path d="M20 8v6M23 11h-6" />
+                            </svg>
+                            <span class="ml-3">
+                                Sign Ip
+                            </span>
+                        </button>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex-1 bg-indigo-100 text-center hidden lg:flex">
+            <div class="m-12 bg-[url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg')] xl:m-16 w-full bg-contain bg-center bg-no-repeat"
               >
-                SIGN IN
-              </Button>
-            </Form.Item>
-          </Form>
-          
-          </div>
-        </Content>
-      </Layout>
+            </div>
+        </div>
+    </div>
+</div>
     </>
   );
 }

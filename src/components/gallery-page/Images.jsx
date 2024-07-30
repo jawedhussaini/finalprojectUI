@@ -15,11 +15,6 @@ function Images() {
  
       const response = await fetch(
         `${API}/gallaries?populate=*`,
-        {
-          headers: {
-            authorization: `Bearer ${getToken()}`,
-          },
-        }
       );
       if (!response.ok) {
         throw new Error(response.status);

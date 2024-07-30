@@ -9,7 +9,7 @@ function NavButtons({ onToggleNav, onToggleSidebar }) {
       <button className={`3xl:hidden ${btnStyles}`} onClick={onToggleNav}>
         <FaBars className="h-6 w-6" />
       </button>
-      <Link to="/" className={btnStyles}>
+      <Link to="/sign-in" className={btnStyles}>
         <FaRegUser className="h-6 w-6" />
       </Link>
       <button className={btnStyles}>

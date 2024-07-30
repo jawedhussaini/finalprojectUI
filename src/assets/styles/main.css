@@ -994,8 +994,7 @@ button.ant-btn.bell strong {
   line-height: 55px;
 }
 .tabled{
-  background: rgb(21, 21, 21);
-  color: white;
+  color: black
 }
 
 
@@ -1439,8 +1438,9 @@ span.ismobile {
   height: 40px;
 }
 .tableButtons{
-  background-color: white;
-  color: rgb(127, 31, 32);
+  background-color:white;
+  color: rgb(0, 172, 252);
+  border: 1px solid rgb(0, 172, 252);
 }
  .ant-menu-item-selected {
     background-color: rgb(127, 31, 32) !important;
@@ -1721,27 +1721,22 @@ ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light.left-nav
   table
   thead.ant-table-thead
   .ant-table-cell {
-  background-color: black;
-  color: white;
+
+  color: black;
 }
 
-.ant-table-cell {
-   background-color: black;
-   
-}
+
 .ant-table-tbody > tr{
-  color:white ;
+  color:gray ;
 } 
 .tableTextColor{
   padding-top:25px;
-  color:white 
-}
-.paginationTextColor{
-  color: white;
+  color:black 
 }
 
+
 .ant-table-tbody > tr:hover{
-  color:#000 ;
+  color:black ;
   background-color: none;
   background: none;
 } 
@@ -3525,6 +3520,7 @@ h2 {text-align: center;}
   width: 60%;
   padding: 8px;
   border-radius: 20px;
+  border: 1px solid rgb(0, 172, 252);
 }
 .pieClass{
   width: 50%;

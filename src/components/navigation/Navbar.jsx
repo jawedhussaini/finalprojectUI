@@ -40,7 +40,7 @@ function Navigation() {
     <>
       <nav
         className={`${
-          stickyNav ? "sticky top-0 bg-gray-600" : "relative"
+          stickyNav ? "top-0 bg-gray-600" : "relative"
         } z-50 flex items-center bg-gray-600 justify-between gap-4 px-8 py-5`}
       >
         <Logo />

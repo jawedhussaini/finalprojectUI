@@ -17,11 +17,7 @@ function Categories({ sendDataToParent }) {
  
       const response = await fetch(
         `${API}/catagories?populate=*`,
-        {
-          headers: {
-            authorization: `Bearer ${getToken()}`,
-          },
-        }
+      
         
         
       );

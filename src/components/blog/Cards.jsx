@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const cardStyles = `preserve-3d relative h-full w-full duration-500`;
@@ -15,18 +16,40 @@ const backStyles = {
 const linkStyles = `inline-block bg-red px-4 py-2 text-xs font-bold uppercase text-white`;
 
 function Cards() {
+   const [blogs,setBlogs]=useState(null)
+     const API = process.env.REACT_APP_API;
+  const getData=async ()=>{
+       try {
+ 
+      const response = await fetch(
+        `${API}/blogs?populate=*&pagination[page]=1&pagination[pageSize]=3`,
+      );
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      const data = await response.json();
+      console.log("blogs",data)
+      setBlogs(data.data)
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+    useEffect(() => {
+   getData()
+  }, []);
   return (
     <div className="grid gap-10 xl:grid-cols-2 3xl:grid-cols-3">
       {/* 01 */}
-      <div className="perspective group h-72">
+      {blogs?.map((items)=>(
+<div key={items.id} className="perspective group h-72">
         <div className={`${cardStyles} group-hover:rotate-y-180`}>
           {/* Front */}
           <div className={frontStyles.card}>
-            <p className={frontStyles.date}>22.03.22</p>
-            <h4 className="font-bold">Yoga For Everyone in 2022</h4>
+            
+            <h4 className="font-bold">{items.attributes.Title}</h4>
             <p className="text-sm font-medium text-gray-300">
-              Authoritatively disseminate multimedia based total linkage through
-              market-driven methodolContinually transform
+            {items.attributes.Description}
             </p>
             <Link to="/" className={linkStyles}>
               Read more &rarr;
@@ -34,13 +57,11 @@ function Cards() {
           </div>
           {/* Back */}
           <div
-            className={`${backStyles.card} rotate-y-180 bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('./images/blog/img1.webp')]`}
+            className={`${backStyles.card} rotate-y-180 bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))')]`}
           >
-            <p className={backStyles.date}>22.03.22</p>
-            <h4 className="font-bold text-white">Yoga For Everyone in 2022</h4>
+            <h4 className="font-bol">{items.attributes.Title}</h4>
             <p className="text-sm font-medium text-white">
-              Authoritatively disseminate multimedia based total linkage through
-              market-driven methodolContinually transform
+                  {items.attributes.Description}
             </p>
             <Link to="/" className={linkStyles}>
               Read more &rarr;
@@ -48,74 +69,7 @@ function Cards() {
           </div>
         </div>
       </div>
-
-      {/* 02 */}
-      <div className="perspective group h-72">
-        <div className={`${cardStyles} group-hover:rotate-x-180`}>
-          {/* Front */}
-          <div className={frontStyles.card}>
-            <p className={frontStyles.date}>22.03.22</p>
-            <h4 className="font-bold">Back Into CrossFit After Vacation</h4>
-            <p className="text-sm font-medium text-gray-300">
-              Authoritatively disseminate multimedia based total linkage through
-              market-driven methodolContinually transform
-            </p>
-            <Link to="/" className={linkStyles}>
-              Read more &rarr;
-            </Link>
-          </div>
-          {/* Back */}
-          <div
-            className={`${backStyles.card} rotate-x-180 bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('./images/blog/img2.webp')]`}
-          >
-            <p className={backStyles.date}>22.03.22</p>
-            <h4 className="font-bold text-white">
-              Back Into CrossFit After Vacation
-            </h4>
-            <p className="text-sm font-medium text-white">
-              Authoritatively disseminate multimedia based total linkage through
-              market-driven methodolContinually transform
-            </p>
-            <Link to="/" className={linkStyles}>
-              Read more &rarr;
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* 03 */}
-      <div className="perspective group h-72 xl:col-span-2 xl:w-1/2 xl:justify-self-center 3xl:col-span-1 3xl:w-full">
-        <div className={`${cardStyles} group-hover:rotate-y-180`}>
-          {/* Front */}
-          <div className={frontStyles.card}>
-            <p className={frontStyles.date}>22.03.22</p>
-            <h4 className="font-bold">Meet Fitness Ambassador Grace</h4>
-            <p className="text-sm font-medium text-gray-300">
-              Authoritatively disseminate multimedia based total linkage through
-              market-driven methodolContinually transform
-            </p>
-            <Link to="/" className={linkStyles}>
-              Read more &rarr;
-            </Link>
-          </div>
-          {/* Back */}
-          <div
-            className={`${backStyles.card} rotate-y-180 bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('./images/blog/img3.webp')]`}
-          >
-            <p className={backStyles.date}>22.03.22</p>
-            <h4 className="font-bold text-white">
-              Meet Fitness Ambassador Grace
-            </h4>
-            <p className="text-sm font-medium text-white">
-              Authoritatively disseminate multimedia based total linkage through
-              market-driven methodolContinually transform
-            </p>
-            <Link to="/" className={linkStyles}>
-              Read more &rarr;
-            </Link>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 }

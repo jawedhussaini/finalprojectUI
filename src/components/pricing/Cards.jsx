@@ -4,7 +4,7 @@ import img1 from "../../images/pricing/img1.webp";
 import img2 from "../../images/pricing/img2.webp";
 import img3 from "../../images/pricing/img3.webp";
 import { useEffect, useState } from "react";
-import { getToken } from "../../utill/helpers";
+import { getToken, getUserData } from "../../utill/helpers";
 import {loadStripe} from '@stripe/stripe-js';
 import { makeRequest } from "../../makeRequest";
 
@@ -14,17 +14,13 @@ const headingStyles = `clip-path-left group-hover:clip-path-right absolute botto
 
 function Cards() {
   const [cart,setCart]=useState(null)
+  const [auth,setAuth]=useState(false)
      const API = process.env.REACT_APP_API;
   const getData=async ()=>{
        try {
  
       const response = await fetch(
         `${API}/classes?populate=*`,
-        {
-          headers: {
-            authorization: `Bearer ${getToken()}`,
-          },
-        }
         
         
       );
@@ -46,13 +42,18 @@ function Cards() {
    getData()
 
   }, []);
-  const stripePromise = loadStripe('pk_test_51PcB2gD7q18kXpMhmn3P9DC1fsiqwfXWP1o9nfNXIHUJK5Ex6x2WHoSwE1XBM956h367tT7DhyzW4eI6jbQMpv0X00IP3sBhsY');
+    useEffect(() => {
+        setAuth(!!getToken());
+
+  }, [getToken()]);
+ const stripePromise = loadStripe('pk_test_51PcB2gD7q18kXpMhmn3P9DC1fsiqwfXWP1o9nfNXIHUJK5Ex6x2WHoSwE1XBM956h367tT7DhyzW4eI6jbQMpv0X00IP3sBhsY');
   const handelPayment=async(packname,price)=>{
+    const userDetails=getUserData()
     try{
          const stripe = await stripePromise;
       const res = await makeRequest.post("/payments", {
-        name:"jawed",
-          email:"j@gmail.com",
+        name:userDetails.name,
+          email:userDetails.email,
           classs:packname,
           prices:price
         
@@ -71,7 +72,7 @@ function Cards() {
       {/* 01 */}
       {
         cart?.data?.map((items)=>(
-  <div className="flex flex-col shadow-2xl">
+  <div key={items.id} className="flex flex-col shadow-2xl">
         <div className="group relative overflow-hidden">
           <img src={`http://localhost:1337${items?.attributes?.Image?.data?.attributes?.url}`} alt="" className={imgStyles} />
           <h4 className={headingStyles}>{items.attributes.Name}</h4>
@@ -85,7 +86,9 @@ function Cards() {
                <li>{item.attributes.Name}</li>
             ))}
           </ul>
-          <button onClick={()=>handelPayment(items.attributes.Name,items.attributes.Price)}><TertiaryButton>Purchase now</TertiaryButton></button>
+           {auth && (
+                 <button onClick={()=>handelPayment(items.attributes.Name,items.attributes.Price)}><TertiaryButton>Purchase now</TertiaryButton></button>)}
+     
         </div>
       </div>
         ))

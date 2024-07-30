@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import TertiaryButton from "../buttons/TertiaryButton";
 import Pagination from "../pagination/Pagination";
 import { getToken } from "../../utill/helpers";
+import { Link } from "react-router-dom";
 
 
 
@@ -14,11 +15,7 @@ function Posts({catagory,searchdata}) {
  
       const response = await fetch(
         `${API}/blogs?populate=*&${catagory ? `[filters][catagory][Name][$eq]=${catagory}` : null}&${searchdata ? `[filters][Title][$contains]=${searchdata}` : null}`,
-        {
-          headers: {
-            authorization: `Bearer ${getToken()}`,
-          },
-        }
+       
         
         
       );
@@ -43,7 +40,12 @@ function Posts({catagory,searchdata}) {
   const itemPerPage = Math.ceil(blog?.length / 2);
   const numPages = Math.ceil(blog?.length / itemPerPage);
 
-console.log("in post",searchdata)
+
+    const truncateDescription = (description, maxLength) => {
+    if (description.length <= maxLength) return description;
+    return description.substring(0, maxLength) + "...";
+  };
+
   return (
     <div className="flex flex-col gap-14">
       {blog?.slice(curPage * itemPerPage, itemPerPage * (curPage + 1)).map((blogs) => (
@@ -61,10 +63,11 @@ console.log("in post",searchdata)
 }
             </p>
             <h3 className="mb-4 text-3xl font-bold">{blogs.attributes.Title}</h3>
-            <p className="mb-8 font-medium  text-gray-300">{blogs.attributes.Description
-}</p>
+            <p className="mb-8 font-medium  text-gray-300">{truncateDescription(blogs.attributes.Description, 100)}</p>
             <div>
-              <TertiaryButton>Read more</TertiaryButton>
+              <Link to={`/blog/${blogs.id}`}>
+              <span className="focus text-md relative inline-flex items-center gap-1.5 bg-red px-8 py-4 font-bold uppercase text-white before:absolute before:left-3 before:top-[-12px] before:z-[-1] before:h-full before:w-full before:border before:border-solid before:border-gray-150/50 before:transition-all before:duration-500 hover:before:translate-x-[-12px] hover:before:translate-y-[12px] hover:before:border-red/50">Read more</span>
+              </Link>
             </div>
           </div>
         ))}

@@ -6,6 +6,7 @@ export default function GloblaState({ children }) {
   const [userDetailsModel, setUserDetailsModel] = useState(false);
   const [imageModal, setImageModal] = useState(false);
   const [loaders,setLoaders]=useState(false)
+  const [userPosition,setUserPOsition]=useState(null)
 
   return (
     <GloblaContext.Provider
@@ -15,7 +16,9 @@ export default function GloblaState({ children }) {
         imageModal,
         setImageModal,
         loaders,
-        setLoaders
+        setLoaders,
+        userPosition,
+        setUserPOsition
       }}
     >
       {children}

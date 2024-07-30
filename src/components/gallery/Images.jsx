@@ -13,17 +13,11 @@ function Images() {
  
       const response = await fetch(
         `${API}/gallaries?populate=*&pagination[page]=1&pagination[pageSize]=6`,
-        {
-          headers: {
-            authorization: `Bearer ${getToken()}`,
-          },
-        }
       );
       if (!response.ok) {
         throw new Error(response.status);
       }
       const data = await response.json();
-      console.log(data)
       setgallery(data.data)
     } catch (err) {
       console.log(err);

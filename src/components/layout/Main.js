@@ -15,13 +15,12 @@ const Main = ({ children }) => {
   } = theme.useToken();
 
   return (
-    <Layout className='layout'>
-      <Sider width={310} breakpoint="lg" style={{ background:"black" }}
+    <Layout className='layout bg-white'>
+      <Sider width={310} breakpoint="lg"
         collapsedWidth="0" onBreakpoint={(broken) => {
           setCollapsed(true)
         }} trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical"  >
-          <img src={logo} style={{ height: 40 }} />
           <span>Reporting System</span>
         </div>
 
