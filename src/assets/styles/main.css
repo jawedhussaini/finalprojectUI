@@ -3980,3 +3980,10 @@ gap:5px;
 .chartHeader{
   color: white;
 }
+.chart-container {
+  width: 100%;          /* Make the chart take full width of the container */   /* Optional max-width to limit the chart size */
+  height: auto;         /* Let the height adjust automatically */
+  aspect-ratio: 16 / 9; /* Optional: Maintain a 16:9 aspect ratio */
+  margin: 0 auto;       /* Center the chart horizontally */
+
+        /* Optional padding around the chart */}

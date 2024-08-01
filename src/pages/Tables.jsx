@@ -23,6 +23,7 @@ import UserModal from "../components/userDetails/UserModal";
 import { useLocation } from 'react-router-dom'
 import dayjs from "dayjs";
 import { AuthContext, useAuthContext } from "../context/authContext";
+import PayLineChart from "../components/charts/PayLineChart";
 
 
 function Tables() {
@@ -626,6 +627,8 @@ setLoaders(false);
       }
 
       const pay=await payments.json()
+      console.log("payT",pay)
+   
       setPaymentData(pay)
   
       setEndDatePay(null);
@@ -798,7 +801,7 @@ setLoaders(false);
         //   </Dropdown>
         // }
         >
-          <h2  className="tableTextColor">{headers}</h2>
+          <h2  className="tableTextColor">{headers} Payments</h2>
           <div className="searchFields">
             <Button
               
@@ -871,6 +874,22 @@ setLoaders(false);
             </Row>
           </div>
         </Card>
+       
+<div className="grid gap-10 ms:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2 items-center">
+  {/* Chart displayed as block on small screens and inline on large screens */}
+  <div className="mb-4 w-auto p-5">
+    {paymentData !== null ? <PayLineChart monthlyData={paymentData} /> : null}
+  </div>
+
+  {/* Additional content displayed inline on large screens */}
+  <div className="mb-4 w-auto p-5">
+  {paymentData !== null ? <PayLineChart monthlyData={paymentData} /> : null}
+  </div>
+  </div>
+
+
+      
+        
       </div>
       {userDetailsModel && graphData !== null && title !== null && userModalData !== null && servey !==null && <UserModal graphData={graphData} table={userModalData.data.attributes.Form} servey={servey} data={userModalData} />}
     </div>

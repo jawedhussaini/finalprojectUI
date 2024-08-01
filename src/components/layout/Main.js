@@ -26,8 +26,8 @@ const Main = ({ children }) => {
 
         <Sidenav />
       </Sider>
-      <Layout>
-        <Header style={{ padding: 0, background: "rgb(127, 31, 32)",borderRadius:"5px" }}>
+      <Layout style={{ background:"white" }}> 
+        <Header style={{ padding: 0, background: "rgb(127, 31, 32)" }}>
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
