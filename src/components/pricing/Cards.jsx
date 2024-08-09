@@ -3,7 +3,7 @@ import TertiaryButton from "../buttons/TertiaryButton";
 import img1 from "../../images/pricing/img1.webp";
 import img2 from "../../images/pricing/img2.webp";
 import img3 from "../../images/pricing/img3.webp";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getToken, getUserData } from "../../utill/helpers";
 import {loadStripe} from '@stripe/stripe-js';
 import { makeRequest } from "../../makeRequest";
@@ -15,7 +15,10 @@ const headingStyles = `clip-path-left group-hover:clip-path-right absolute botto
 function Cards() {
   const [cart,setCart]=useState(null)
   const [auth,setAuth]=useState(false)
-     const API = process.env.REACT_APP_API;
+    const [payment, setPayment] = useState([]);
+  const [loading,setLoading]=useState(true)
+  const API = process.env.REACT_APP_API;
+
   const getData=async ()=>{
        try {
  
@@ -67,6 +70,55 @@ function Cards() {
       console.log(err)
     }
   }
+ const showPayment = useCallback(async () => {
+    const userData = getUserData();
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Add 1 because getMonth() returns a zero-based index
+
+    // Ensure month is two digits
+    const monthStr = month.toString().padStart(2, "0");
+
+    // Calculate the first day of the month
+    const startDate = `${year}-${monthStr}-01T00:00:00.000Z`;
+
+    // Calculate the last day of the month
+    const lastDay = new Date(year, month, 0).getDate(); // No need to add 1, getDate() gives us the last day
+    const endDate = `${year}-${monthStr}-${lastDay}T23:59:59.999Z`;
+
+    console.log("Start Date:", startDate);
+    console.log("End Date:", endDate);
+
+    try {
+      const response = await fetch(
+        `${API}/payments?[filters][Email][$eq]=${userData.email}&[filters][createdAt][$gte]=${startDate}&[filters][createdAt][$lte]=${endDate}`,
+        {
+          headers: {
+            authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      setLoading(false);
+      const data = await response.json();
+    
+     
+
+      setPayment(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }, [API]); // Pass de
+
+  
+
+  useEffect(()=>{
+    showPayment()
+
+  },[showPayment])
+
   return (
     <div className="relative z-10 grid gap-8 xl:grid-cols-2 2xl:grid-cols-3">
       {/* 01 */}
@@ -87,7 +139,15 @@ function Cards() {
             ))}
           </ul>
            {auth && (
-                 <button onClick={()=>handelPayment(items.attributes.Name,items.attributes.Price)}><TertiaryButton>Purchase now</TertiaryButton></button>)}
+            payment?.data?.length ?
+                   (
+               payment?.data[0]?.attributes?.Package ===items.attributes.Name ? (
+                 <button disabled className="focus mr-2 bg-green p-4 text-white">
+        Pachage Payed
+      </button>
+               ) :
+               (<button onClick={()=>handelPayment(items.attributes.Name,items.attributes.Price)}><TertiaryButton>Purchase now</TertiaryButton></button>)
+                 ):<button onClick={()=>handelPayment(items.attributes.Name,items.attributes.Price)}><TertiaryButton>Purchase now</TertiaryButton></button>)}
      
         </div>
       </div>

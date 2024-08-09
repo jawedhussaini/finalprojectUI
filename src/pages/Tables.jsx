@@ -24,6 +24,8 @@ import { useLocation } from 'react-router-dom'
 import dayjs from "dayjs";
 import { AuthContext, useAuthContext } from "../context/authContext";
 import PayLineChart from "../components/charts/PayLineChart";
+import HerizontalBarChart from "../components/charts/HerizontalBarChart";
+import WeightChart from "../components/charts/WeigthGraph";
 
 
 function Tables() {
@@ -59,6 +61,7 @@ function Tables() {
   const [loaderPayment,setLoaderPayment]=useState(false)
   const [headers,setHearders]=useState()
   const [paymentData,setPaymentData]=useState(null)
+  const [paymentDataForGraph,setPaymentDataForGraph]=useState(null)
   
    const { setLoaders } = useContext(GloblaContext);
     const {  userPosition } = useContext(GloblaContext); 
@@ -581,6 +584,7 @@ setLoaders(false);
         throw new Error(response.status);
       }
       const data = await response.json();
+   
       setResult(data);
       setEndDate(null);
       setSearchINput("");
@@ -596,7 +600,9 @@ setLoaders(false);
       throw error;
     }
   }, [currentPage, servey, sorttt, setResult, setTotalPages, itemsPerPage]);
-    const fetchDataPayment = useCallback(async () => {
+   
+  
+  const fetchDataPayment = useCallback(async () => {
     setLoaderPayment(true);
 
     const query = qs.stringify(
@@ -627,7 +633,7 @@ setLoaders(false);
       }
 
       const pay=await payments.json()
-      console.log("payT",pay)
+ 
    
       setPaymentData(pay)
   
@@ -690,7 +696,7 @@ setLoaders(false);
   //   </Menu>
   // );
  
-
+const userDetails=getUserData()
   return (
     <div className="bg-white -m-6"> 
       <div className="m-6">
@@ -874,21 +880,37 @@ setLoaders(false);
             </Row>
           </div>
         </Card>
-       
+
+    {(title ==="FICHE PACK VIP PREMIUM" || title ==="FICHE PACK STARTER" || title ==="PACK TRAINING ATHLÈTE" || title ==="FICHE PACK SPÉCIFIQUE NUTRITION") && userDetails.positiion==="admin" && 
+  ( 
+  <div>
 <div className="grid gap-10 ms:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2 items-center">
-  {/* Chart displayed as block on small screens and inline on large screens */}
+
   <div className="mb-4 w-auto p-5">
-    {paymentData !== null ? <PayLineChart monthlyData={paymentData} /> : null}
+ { title !==null && <HerizontalBarChart servey={title}/> }
   </div>
 
-  {/* Additional content displayed inline on large screens */}
+
   <div className="mb-4 w-auto p-5">
-  {paymentData !== null ? <PayLineChart monthlyData={paymentData} /> : null}
+ {title !==null && <WeightChart servey={title}/> }
   </div>
   </div>
 
+ 
+ {title !== "PACK TRAINING ATHLÈTE" && (
+   <div className="grid gap-10 ms:grid-cols-1 xl:grid-cols-1 2xl:grid-cols-1 mx-auto items-center justify-center">
 
-      
+  <div className="mb-4 w-2/3 mx-auto">
+  {paymentData !== null && title !==null && <PayLineChart servey={title} />}
+  </div>
+  </div>
+ )}
+ 
+  </div>
+  )
+
+
+        }   
         
       </div>
       {userDetailsModel && graphData !== null && title !== null && userModalData !== null && servey !==null && <UserModal graphData={graphData} table={userModalData.data.attributes.Form} servey={servey} data={userModalData} />}

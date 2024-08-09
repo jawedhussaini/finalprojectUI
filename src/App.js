@@ -15,6 +15,7 @@ import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import Gallery from "./pages/Gallery";
 import BlogDetails from "./pages/BlogDetails";
+import ChangePassword from "./pages/ChangePass";
 
 
 const PrivateRoutes = () => {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/Blog" element={<Blog />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Gallery" element={<Gallery />} />
+        <Route path="/ChangePassword" element={<ChangePassword />} />
         <Route path="/blog/:id" element={<BlogDetails/>} /> {/* Dynamic Blog Post Route */}
         
         {/* Private routes */}

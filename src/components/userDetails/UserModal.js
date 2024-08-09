@@ -8,6 +8,7 @@ import LineChart from "../charts/LineChart";
 import FichMesurs from "./details/FichMeausur";
 import TrainingLoads from "./details/TrainingLoad";
 import Service from "./details/Service";
+import PaymnetCommponent from "./details/PaymentComponent";
 
 function UserModal({ graphData, table, data, servey }) {
   const { setUserDetailsModel, loaders } = useContext(GloblaContext);
@@ -65,6 +66,8 @@ function UserModal({ graphData, table, data, servey }) {
     }
   }, [data]);
 
+
+
   return (
     <>
       <div className="userModel">
@@ -99,6 +102,7 @@ function UserModal({ graphData, table, data, servey }) {
                 {(table===tableNames.table1 || table===tableNames.table2 || table===tableNames.table3 ||table===tableNames.table4 ||table===tableNames.table5 ||table===tableNames.table6 ||table===tableNames.table7  ) ? <Photos data={data?.data?.attributes?.service?.Photo} /> : null}
               </div>
               <div>
+                <PaymnetCommponent createdAt={tableData.createdAt} email={tableData.Email}/>
                 {secondColum.length !== 0 && tableData?.service?.measure && (
                   <LineChart
                     data={graphData}

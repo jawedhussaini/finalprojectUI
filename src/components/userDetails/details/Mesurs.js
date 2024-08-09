@@ -10,7 +10,7 @@ function Mesurs(data) {
   const [finalData, setFinalData] = useState(null);
   const [pickYear, setPickYear] = useState(null);
   const [selectMount, setSelectMounth] = useState(null);
- console.log(data)
+
      const [loading,setLoading]=useState(false)
   const mounths = [
     { key: "1", value: "J" },
