@@ -31,7 +31,7 @@ function Coaches() {
         throw new Error(response.status);
       }
       const data = await response.json();
-      console.log(data)
+
       setCoatch(data.data)
     } catch (err) {
       console.log(err);
@@ -54,7 +54,7 @@ function Coaches() {
         <div
           className={`${imageBoxStyles} flex items-center justify-center`}
         >
-           <img src={`http://localhost:1337${item.attributes.Image?.data?.attributes?.url}`}/>
+           <img src={`${item.attributes.Image?.data?.attributes?.url}`}/>
         </div>
         <div className={textBoxStyles}>
           <FaAngleUp className="absolute right-1/2 top-[-13px] z-10 translate-x-1/2 text-xl" />

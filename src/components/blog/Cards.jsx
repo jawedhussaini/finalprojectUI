@@ -28,7 +28,7 @@ function Cards() {
         throw new Error(response.status);
       }
       const data = await response.json();
-      console.log("blogs",data)
+
       setBlogs(data.data)
     } catch (err) {
       console.log(err);
@@ -38,6 +38,11 @@ function Cards() {
     useEffect(() => {
    getData()
   }, []);
+
+    const truncateDescription = (description, maxLength) => {
+    if (description.length <= maxLength) return description;
+    return description.substring(0, maxLength) + "...";
+  };
   return (
     <div className="grid gap-10 xl:grid-cols-2 3xl:grid-cols-3">
       {/* 01 */}
@@ -49,7 +54,7 @@ function Cards() {
             
             <h4 className="font-bold">{items.attributes.Title}</h4>
             <p className="text-sm font-medium text-gray-300">
-            {items.attributes.Description}
+             {truncateDescription(items.attributes.Description, 300)}
             </p>
             <Link to="/" className={linkStyles}>
               Read more &rarr;
@@ -61,7 +66,7 @@ function Cards() {
           >
             <h4 className="font-bol">{items.attributes.Title}</h4>
             <p className="text-sm font-medium text-white">
-                  {items.attributes.Description}
+                  {truncateDescription(items.attributes.Description, 300)}
             </p>
             <Link to="/" className={linkStyles}>
               Read more &rarr;

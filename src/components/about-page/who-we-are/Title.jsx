@@ -10,8 +10,7 @@ function Title() {
        try {
  
       const response = await fetch(
-        `${API}/abouts`,
-       
+        `${API}/abouts?populate=*`,
       );
       if (!response.ok) {
         throw new Error(response.status);

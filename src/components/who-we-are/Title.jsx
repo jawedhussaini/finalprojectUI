@@ -9,11 +9,7 @@ function Title() {
        try {
  
       const response = await fetch(`${API}/abouts/`,
-        {
-          headers: {
-            authorization: `Bearer ${getToken()}`,
-          },
-        }
+      
       );
       if (!response.ok) {
         throw new Error(response.status);

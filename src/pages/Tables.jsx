@@ -9,7 +9,7 @@ import {
   Button,
   Input,
   DatePicker,
-}from "antd";
+} from "antd";
 import {
   CaretUpOutlined,
   CaretDownOutlined,
@@ -35,9 +35,9 @@ function Tables() {
   const [index, setIndex] = useState(0);
   const [indexPay, setIndexPay] = useState(0);
   const sortOrder = ["", "asc", "desc"];
-   const sortOrderPay = ["", "asc", "desc"];
+  const sortOrderPay = ["", "asc", "desc"];
   const [header, setHeader] = useState(null);
-   const [headerPay, setHeaderPay] = useState(null);
+  const [headerPay, setHeaderPay] = useState(null);
   const [exheader, setExheader] = useState(null);
   const [currentPagePay, setCurrentPagePay] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,26 +46,26 @@ function Tables() {
   const [totalPagesPay, setTotalPagesPay] = useState(0);
   const [totalPay, setTotalPay] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-   const [itemsPerPagePay, setItemsPerPagePay] = useState(10);
+  const [itemsPerPagePay, setItemsPerPagePay] = useState(10);
   const [result, setResult] = useState(null);
   const [defaultServey, setDefaultServey] = useState("1");
   const [userModalData, setUserModalData] = useState(null);
   const [searchInput, setSearchINput] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-   const [searchInputPay, setSearchINputPay] = useState("");
+  const [searchInputPay, setSearchINputPay] = useState("");
   const [startDatePay, setStartDatePay] = useState(null);
   const [endDatePay, setEndDatePay] = useState(null);
   const [graphData, setGraphData] = useState(null)
   const [loader, setLoader] = useState(false)
-  const [loaderPayment,setLoaderPayment]=useState(false)
-  const [headers,setHearders]=useState()
-  const [paymentData,setPaymentData]=useState(null)
-  const [paymentDataForGraph,setPaymentDataForGraph]=useState(null)
-  
-   const { setLoaders } = useContext(GloblaContext);
-    const {  userPosition } = useContext(GloblaContext); 
-    const API = process.env.REACT_APP_API;
+  const [loaderPayment, setLoaderPayment] = useState(false)
+  const [headers, setHearders] = useState()
+  const [paymentData, setPaymentData] = useState(null)
+  const [paymentDataForGraph, setPaymentDataForGraph] = useState(null)
+
+  const { setLoaders } = useContext(GloblaContext);
+  const { userPosition } = useContext(GloblaContext);
+  const API = process.env.REACT_APP_API;
 
 
   const handleSortOrder = (field) => {
@@ -130,10 +130,10 @@ function Tables() {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          width:"100%",
-          height:"100%",
-          margin:"0px",
-         
+          width: "100%",
+          height: "100%",
+          margin: "0px",
+
         }}
         onClick={() => handleSortOrder(field)}
       >
@@ -142,7 +142,7 @@ function Tables() {
       </span>
     );
   };
-    const renderOrderIconPayment = (field) => {
+  const renderOrderIconPayment = (field) => {
     return (
       <span>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -153,7 +153,7 @@ function Tables() {
     );
   }
 
-   const renderHeaderForpayment = (label, field) => {
+  const renderHeaderForpayment = (label, field) => {
     return (
       <span
         style={{
@@ -162,12 +162,12 @@ function Tables() {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          width:"100%",
-          height:"100%",
-          margin:"0px",
-         
+          width: "100%",
+          height: "100%",
+          margin: "0px",
+
         }}
-        onClick={() =>  handleSortOrderForPayment(field)}
+        onClick={() => handleSortOrderForPayment(field)}
       >
         {label}
         {renderOrderIconPayment(field)}
@@ -207,7 +207,7 @@ function Tables() {
       dataIndex: "action",
     },
   ];
-    let columnsPymentTable = [
+  let columnsPymentTable = [
     {
       title: renderHeaderForpayment("Nom", "Name"),
       dataIndex: "Name",
@@ -222,13 +222,13 @@ function Tables() {
 
     },
     {
-     title: renderHeaderForpayment("PaymentID", "PaymentID"),
+      title: renderHeaderForpayment("PaymentID", "PaymentID"),
       key: "PaymentID",
       dataIndex: "PaymentID",
 
     },
-     {
-     title: renderHeaderForpayment("Package", "Package"),
+    {
+      title: renderHeaderForpayment("Package", "Package"),
       key: "package",
       dataIndex: "package",
 
@@ -383,7 +383,7 @@ function Tables() {
 
   const handleServeyChange = useCallback(
     (serveyKey) => {
-    
+
       setCurrentPage(1);
       setDefaultServey(serveyKey);
     },
@@ -403,12 +403,12 @@ function Tables() {
     (item) => item.key === defaultServey
   )[0];
 
-  const getGraphsData = async (email,date) => {
- 
-  
-   const greater = new Date(date).getFullYear() + '-01-01T00:00:00.000Z';
-const lessDate = new Date(date).getFullYear() + '-12-29T23:59:59.999Z';
- 
+  const getGraphsData = async (email, date) => {
+
+
+    const greater = new Date(date).getFullYear() + '-01-01T00:00:00.000Z';
+    const lessDate = new Date(date).getFullYear() + '-12-29T23:59:59.999Z';
+
 
 
     try {
@@ -426,8 +426,8 @@ const lessDate = new Date(date).getFullYear() + '-12-29T23:59:59.999Z';
       const data = await response.json();
 
       setGraphData(data)
-   
-    
+
+
 
 
 
@@ -440,7 +440,7 @@ const lessDate = new Date(date).getFullYear() + '-12-29T23:59:59.999Z';
   const fetchDataByIdAndTableName = async (ids) => {
     try {
       setLoaders(true);
-     
+
       const response = await fetch(
         `${API}/all-packes/${ids}?populate=*`
         , {
@@ -452,14 +452,14 @@ const lessDate = new Date(date).getFullYear() + '-12-29T23:59:59.999Z';
       if (!response.ok) {
         throw new Error(response.status);
       }
-   
+
       const data = await response.json();
-       
-      
+
+
       setUserModalData(data)
 
-      getGraphsData(data.data.attributes.Email,data.data.attributes.createdAt)
-setLoaders(false);
+      getGraphsData(data.data.attributes.Email, data.data.attributes.createdAt)
+      setLoaders(false);
     } catch (err) {
       setLoaders(false);
       console.log(err);
@@ -488,7 +488,7 @@ setLoaders(false);
       console.log(err);
     }
   };
-    const goForSearchPayment = async () => {
+  const goForSearchPayment = async () => {
     try {
       const response = await fetch(
         `${API}/payments?[filters][Package][$eq]=${title}&${searchInputPay ? `[filters][Name][$contains]=${searchInputPay}` : null
@@ -522,7 +522,7 @@ setLoaders(false);
         registerDate: info?.createdAt.slice(0, 10),
         action: (
           <Button
-          className="tableButtons"
+            className="tableButtons"
             onClick={() => {
               fetchDataByIdAndTableName(item.id);
               setUserDetailsModel(true);
@@ -534,7 +534,7 @@ setLoaders(false);
       };
     });
   };
-   const convertDataPay = (data) => {
+  const convertDataPay = (data) => {
     return data.map((item) => {
       const info = item.attributes;
       return {
@@ -552,9 +552,9 @@ setLoaders(false);
   const sortPay = sortOrderPay[indexPay] && headerPay + ":" + sortOrderPay[indexPay];
 
   const fetchData = useCallback(async () => {
-    
+
     setLoader(true);
- 
+
 
     const query = qs.stringify(
       {
@@ -562,29 +562,29 @@ setLoaders(false);
           page: currentPage,
           pageSize: itemsPerPage,
         },
-  
+
       },
       {
         encodeValuesOnly: true,
       }
     );
 
-    
+
 
     try {
-      const user=getUserData()
-      const emailFilter = user.positiion !== 'admin' ? `&[filters][Email][$eq]=${user.email}` : '';
-      const response = await fetch(`${API}/all-packes?[filters][Form][$eq]=${title}&${emailFilter}&sort=${sorttt}&${query}`,{
- headers: {
-            Authorization: `Bearer ${getToken()}`,
-          },
+      const user = getUserData()
+      const emailFilter = user.positiion === 'sporter' ? `&[filters][Email][$eq]=${user.email}` : '';
+      const response = await fetch(`${API}/all-packes?[filters][Form][$eq]=${title}&${emailFilter}&sort=${sorttt}&${query}`, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
       });
-    
+
       if (!response.ok) {
         throw new Error(response.status);
       }
       const data = await response.json();
-   
+
       setResult(data);
       setEndDate(null);
       setSearchINput("");
@@ -600,8 +600,8 @@ setLoaders(false);
       throw error;
     }
   }, [currentPage, servey, sorttt, setResult, setTotalPages, itemsPerPage]);
-   
-  
+
+
   const fetchDataPayment = useCallback(async () => {
     setLoaderPayment(true);
 
@@ -617,26 +617,27 @@ setLoaders(false);
       }
     );
 
-    
+
 
     try {
-      const user=getUserData()
+      const user = getUserData()
+      console.log(user.email)
       const emailFilter = user.positiion !== 'admin' ? `&[filters][Email][$eq]=${user.email}` : '';
-      const payments= await fetch(`${API}/payments?[filters][Package][$eq]=${title}&${emailFilter}&sort=${sortPay}&${query}`,{
- headers: {
-            Authorization: `Bearer ${getToken()}`,
-          },
+      const payments = await fetch(`${API}/payments?[filters][Package][$eq]=${title}&${emailFilter}&sort=${sortPay}&${query}`, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
       });
-    
+
       if (!payments.ok) {
         throw new Error(payments.status);
       }
 
-      const pay=await payments.json()
- 
-   
+      const pay = await payments.json()
+
+
       setPaymentData(pay)
-  
+
       setEndDatePay(null);
       setSearchINputPay("");
       setStartDatePay(null);
@@ -650,7 +651,7 @@ setLoaders(false);
       console.error("Error fetching posts:", error);
       throw error;
     }
-  }, [currentPagePay, servey, sortPay,setPaymentData, setTotalPagesPay, itemsPerPagePay]);
+  }, [currentPagePay, servey, sortPay, setPaymentData, setTotalPagesPay, itemsPerPagePay]);
 
   useEffect(() => {
     if (getToken()) {
@@ -658,7 +659,7 @@ setLoaders(false);
 
     }
   }, [currentPage, servey, sorttt, setResult, setTotalPages, itemsPerPage]);
-   useEffect(() => {
+  useEffect(() => {
     if (getToken()) {
 
       fetchDataPayment()
@@ -670,12 +671,12 @@ setLoaders(false);
   const showTotalPay = () => `Total ${totalPay} items`;
 
   const source = result && convertData(result.data);
-    const sourcePay = paymentData &&  convertDataPay(paymentData.data);
+  const sourcePay = paymentData && convertDataPay(paymentData.data);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-   const handlePageChangePay = (page) => {
+  const handlePageChangePay = (page) => {
     setCurrentPagePay(page);
   };
 
@@ -683,7 +684,7 @@ setLoaders(false);
     setItemsPerPage(pageSize);
     setCurrentPage(1);
   };
-    const onShowSizeChangePay = (current, pageSize) => {
+  const onShowSizeChangePay = (current, pageSize) => {
     setItemsPerPagePay(pageSize);
     setCurrentPagePay(1);
   };
@@ -695,15 +696,26 @@ setLoaders(false);
   //     ))}
   //   </Menu>
   // );
- 
-const userDetails=getUserData()
+  const countAllmony = (data) => {
+    let total = 0
+    data?.map((item) => (
+      total = total + item?.attributes?.Price
+    ))
+    return total
+  }
+
+  const userDetails = getUserData()
+
+
+
+  
   return (
-    <div className="bg-white -m-6"> 
+    <div className="bg-white -m-6">
       <div className="m-6">
         <Card
           bordered={false}
           className="criclebox tablespace mb-24 tabled tableTextColor"
-          
+
         // extra={
         //   <Dropdown
         //     overlay={<DropdownMenu items={items} />}
@@ -716,7 +728,7 @@ const userDetails=getUserData()
         //   </Dropdown>
         // }
         >
-          <h2  className="tableTextColor">{headers}</h2>
+          <h2 className="tableTextColor">{headers}</h2>
           <div className="searchFields">
             <Button
 
@@ -739,7 +751,7 @@ const userDetails=getUserData()
             <DatePicker
               placeholder="Select Start Date"
               className="datepicker"
-             value={startDate ? dayjs(new Date(startDate)) :null}
+              value={startDate ? dayjs(new Date(startDate)) : null}
               onChange={(date) =>
                 setStartDate(date?.format().slice(0, 10) + "T00:00:00.000Z")
               }
@@ -768,10 +780,10 @@ const userDetails=getUserData()
               pagination={false}
               loading={loader}
               bordered
-              // size="small"
-              
+            // size="small"
+
             />
-            <Row justify="center" style={{ padding: "20px 0"}}>
+            <Row justify="center" style={{ padding: "20px 0" }}>
               <Col>
                 <Pagination
                   showSizeChanger
@@ -782,7 +794,7 @@ const userDetails=getUserData()
                   total={totalPages * itemsPerPage}
                   pageSize={itemsPerPage}
                   onChange={handlePageChange}
-              
+
                   className="paginationTextColor"
                 />
               </Col>
@@ -790,27 +802,18 @@ const userDetails=getUserData()
           </div>
         </Card>
       </div>
-        <div className="m-6">
+
+      <div className="m-6">
         <Card
           bordered={false}
           className="criclebox tablespace mb-24 tabled tableTextColor"
-          
-        // extra={
-        //   <Dropdown
-        //     overlay={<DropdownMenu items={items} />}
-        //     trigger={["click"]}
-        //     placement="bottomRight"
-        //   >
-        //     <Button>
-        //       Choisissez une autre enquête
-        //     </Button>
-        //   </Dropdown>
-        // }
+
         >
-          <h2  className="tableTextColor">{headers} Payments</h2>
+          <h2 className="tableTextColor">{headers} Payments</h2>
+
           <div className="searchFields">
             <Button
-              
+
               className="tableButtons"
               onClick={() => fetchDataPayment()}
             >
@@ -830,7 +833,7 @@ const userDetails=getUserData()
             <DatePicker
               placeholder="Select Start Date"
               className="datepicker"
-             value={startDatePay ? dayjs(new Date(startDatePay)) :null}
+              value={startDatePay ? dayjs(new Date(startDatePay)) : null}
               onChange={(date) =>
                 setStartDatePay(date?.format().slice(0, 10) + "T00:00:00.000Z")
               }
@@ -859,10 +862,15 @@ const userDetails=getUserData()
               pagination={false}
               loading={loaderPayment}
               bordered
-              // size="small"
-              
+            // size="small"
+
             />
-            <Row justify="center" style={{ padding: "20px 0"}}>
+            {userDetails.positiion === "admin" ? (<div className=" flex flex-col gap-2">
+              <h3 className="bg-gray-300 text-white p-2 gap-2">Totla Money :<span className="text-red"> {countAllmony(paymentData?.data)}$</span></h3>
+            </div>) : null}
+
+            <Row justify="center" style={{ padding: "20px 0" }}>
+
               <Col>
                 <Pagination
                   showSizeChanger
@@ -873,7 +881,7 @@ const userDetails=getUserData()
                   total={totalPagesPay * itemsPerPagePay}
                   pageSize={itemsPerPagePay}
                   onChange={handlePageChangePay}
-              
+
                   className="paginationTextColor"
                 />
               </Col>
@@ -881,39 +889,39 @@ const userDetails=getUserData()
           </div>
         </Card>
 
-    {(title ==="FICHE PACK VIP PREMIUM" || title ==="FICHE PACK STARTER" || title ==="PACK TRAINING ATHLÈTE" || title ==="FICHE PACK SPÉCIFIQUE NUTRITION") && userDetails.positiion==="admin" && 
-  ( 
-  <div>
-<div className="grid gap-10 ms:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2 items-center">
+        {(title === "FICHE PACK VIP PREMIUM" || title === "FICHE PACK STARTER" || title === "PACK TRAINING ATHLÈTE" || title === "FICHE PACK SPÉCIFIQUE NUTRITION") && userDetails.positiion === "admin" &&
+          (
+            <div>
+              <div className="grid gap-10 ms:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2 items-center">
 
-  <div className="mb-4 w-auto p-5">
- { title !==null && <HerizontalBarChart servey={title}/> }
-  </div>
-
-
-  <div className="mb-4 w-auto p-5">
- {title !==null && <WeightChart servey={title}/> }
-  </div>
-  </div>
-
- 
- {title !== "PACK TRAINING ATHLÈTE" && (
-   <div className="grid gap-10 ms:grid-cols-1 xl:grid-cols-1 2xl:grid-cols-1 mx-auto items-center justify-center">
-
-  <div className="mb-4 w-2/3 mx-auto">
-  {paymentData !== null && title !==null && <PayLineChart servey={title} />}
-  </div>
-  </div>
- )}
- 
-  </div>
-  )
+                <div className="mb-4 w-auto p-5">
+                  {title !== null && <HerizontalBarChart servey={title} />}
+                </div>
 
 
-        }   
-        
+                <div className="mb-4 w-auto p-5">
+                  {title !== null && <WeightChart servey={title} />}
+                </div>
+              </div>
+
+
+              {title !== "PACK TRAINING ATHLÈTE" && (
+                <div className="grid gap-10 ms:grid-cols-1 xl:grid-cols-1 2xl:grid-cols-1 mx-auto items-center justify-center">
+
+                  <div className="mb-4 w-2/3 mx-auto">
+                    {paymentData !== null && title !== null && <PayLineChart servey={title} />}
+                  </div>
+                </div>
+              )}
+
+            </div>
+          )
+
+
+        }
+
       </div>
-      {userDetailsModel && graphData !== null && title !== null && userModalData !== null && servey !==null && <UserModal graphData={graphData} table={userModalData.data.attributes.Form} servey={servey} data={userModalData} />}
+      {userDetailsModel && graphData !== null && title !== null && userModalData !== null && servey !== null && <UserModal graphData={graphData} table={userModalData.data.attributes.Form} servey={servey} data={userModalData} />}
     </div>
   );
 }

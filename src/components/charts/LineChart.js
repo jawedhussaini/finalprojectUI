@@ -16,11 +16,6 @@ function LineChart(graphData) {
   const API = process.env.REACT_APP_API;
  
 
-
-    useEffect(() => {
-  
-  }, []);
-
   const datas =async() => {
         setLoading(true)
        const greater = new Date(pickYear ? dayjs(new Date(pickYear, 0)) : null).getFullYear() + '-01-01T00:00:00.000Z';

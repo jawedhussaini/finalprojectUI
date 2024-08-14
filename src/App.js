@@ -8,6 +8,7 @@ import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
 import "./index.css";
 
+
 import { getToken } from "./utill/helpers";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -16,6 +17,9 @@ import Contact from "./pages/Contact";
 import Gallery from "./pages/Gallery";
 import BlogDetails from "./pages/BlogDetails";
 import ChangePassword from "./pages/ChangePass";
+import ForgotPasswordRequest from "./pages/ForgotPassword";
+import ResetPassword from "./pages/resetPassword";
+import SignUp from "./pages/SingUp";
 
 
 const PrivateRoutes = () => {
@@ -35,6 +39,9 @@ function App() {
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Gallery" element={<Gallery />} />
         <Route path="/ChangePassword" element={<ChangePassword />} />
+          <Route path="/FongotPassword" element={<ForgotPasswordRequest />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+             <Route path="/singUp" element={<SignUp />} />
         <Route path="/blog/:id" element={<BlogDetails/>} /> {/* Dynamic Blog Post Route */}
         
         {/* Private routes */}

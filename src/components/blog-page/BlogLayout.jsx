@@ -15,6 +15,7 @@ function BlogLayout() {
   function handleDataForSearch(data){
     setSearch(data)
   }
+  
 
  
 

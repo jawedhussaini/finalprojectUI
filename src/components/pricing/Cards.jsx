@@ -32,7 +32,7 @@ function Cards() {
         throw new Error(response.status);
       }
       const data = await response.json();
-      console.log("cart",data)
+
       setCart(data)
 
       
@@ -86,8 +86,7 @@ function Cards() {
     const lastDay = new Date(year, month, 0).getDate(); // No need to add 1, getDate() gives us the last day
     const endDate = `${year}-${monthStr}-${lastDay}T23:59:59.999Z`;
 
-    console.log("Start Date:", startDate);
-    console.log("End Date:", endDate);
+
 
     try {
       const response = await fetch(
@@ -119,14 +118,17 @@ function Cards() {
 
   },[showPayment])
 
+  const userData=getUserData()
+
+
   return (
-    <div className="relative z-10 grid gap-8 xl:grid-cols-2 2xl:grid-cols-3">
+    <div className="relative z-10 grid bg-black gap-8 xl:grid-cols-2 2xl:grid-cols-3">
       {/* 01 */}
       {
         cart?.data?.map((items)=>(
   <div key={items.id} className="flex flex-col shadow-2xl">
         <div className="group relative overflow-hidden">
-          <img src={`http://localhost:1337${items?.attributes?.Image?.data?.attributes?.url}`} alt="" className={imgStyles} />
+          <img src={`${items?.attributes?.Image?.data?.attributes?.url}`} alt="" className={imgStyles} />
           <h4 className={headingStyles}>{items.attributes.Name}</h4>
         </div>
         <div className="relative z-[1] space-y-8 bg-white py-10">
@@ -135,19 +137,14 @@ function Cards() {
           </h5>
           <ul className="space-y-3 font-medium text-gray-300">
             {items.attributes.charactrastics.data.map((item)=>(
-               <li>{item.attributes.Name}</li>
+               <li key={item.id}>{item.attributes.Name}</li>
             ))}
           </ul>
            {auth && (
-            payment?.data?.length ?
-                   (
-               payment?.data[0]?.attributes?.Package ===items.attributes.Name ? (
-                 <button disabled className="focus mr-2 bg-green p-4 text-white">
-        Pachage Payed
-      </button>
-               ) :
-               (<button onClick={()=>handelPayment(items.attributes.Name,items.attributes.Price)}><TertiaryButton>Purchase now</TertiaryButton></button>)
-                 ):<button onClick={()=>handelPayment(items.attributes.Name,items.attributes.Price)}><TertiaryButton>Purchase now</TertiaryButton></button>)}
+            
+        
+               <button onClick={()=>handelPayment(items.attributes.Name,items.attributes.Price)}><TertiaryButton>Purchase now</TertiaryButton></button>)
+              }
      
         </div>
       </div>

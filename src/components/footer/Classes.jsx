@@ -36,7 +36,7 @@ function Classes() {
   return (
     <div className="space-y-5 2xl:w-48 2xl:justify-self-center">
       <h4 className="relative pb-2 text-xl font-semibold capitalize before:absolute before:bottom-0 before:h-1 before:w-16 before:bg-red">
-        Our classes
+        Our Packages
       </h4>
       <ul className="space-y-5">
        

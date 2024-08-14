@@ -20,8 +20,7 @@ function Images() {
         throw new Error(response.status);
       }
       const data = await response.json();
-      console.log(data)
-      setgallery(data.data)
+      setgallery(data)
     } catch (err) {
       console.log(err);
     }
@@ -31,19 +30,19 @@ function Images() {
    getData()
   }, []);
    const [curPage, setCurPage] = useState(0);
-  const itemPerPage = Math.ceil(gallery?.length / 2);
-  const numPages = Math.ceil(gallery?.length / itemPerPage);
+  const itemPerPage = Math.ceil(gallery?.data?.length / 2);
+  const numPages = Math.ceil(gallery?.data?.length / itemPerPage);
 
 
   return (
     <section className="px-6 py-32">
       <div className="container">
         <div className=" grid gap-6 md:grid-cols-2 2xl:grid-cols-3">
-          {gallery?.slice(curPage * itemPerPage, itemPerPage * (curPage + 1))
+          {gallery !==null && gallery?.data?.slice(curPage * itemPerPage, itemPerPage * (curPage + 1))
             .map((item) => (
               <div className="overflow-hidden" key={item.id}>
                 <div className={imgStyles}>
-                  <img src={`http://localhost:1337${item.attributes.Image?.data[0]?.attributes?.url}`} alt="" />
+                  <img src={`${item.attributes.Image?.data[0]?.attributes?.url}`} alt="" />
                 </div>
               </div>
             ))}

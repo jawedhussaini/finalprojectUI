@@ -36,4 +36,7 @@ export const setUserAllData = token => {
 
 export const removeToken = () => {
     localStorage.removeItem(process.env.AUTH_TOKEN);
+    localStorage.removeItem("position");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
 };

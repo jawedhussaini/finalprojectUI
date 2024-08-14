@@ -32,11 +32,10 @@ function Categories({ sendDataToParent }) {
       console.log(err);
     }
   }
+  useEffect(()=>{
+    getData()
+  },[])
    
-    useEffect(() => {
-   getData()
-
-  }, []);
 
   return (
     <div className="flex flex-col gap-4 bg-gray-50 p-6">
@@ -46,8 +45,9 @@ before:absolute before:bottom-0 before:h-1 before:w-16 before:bg-red"
       >
         Categories
       </h3>
+       <button onClick={()=>handleClick(null)} className={btnStyles}>&rsaquo; All</button>
     {catagory?.map((items)=>(
-      <button onClick={()=>handleClick(items.attributes.Name)} className={btnStyles}>&rsaquo; {items.attributes.Name
+      <button key={items.id} onClick={()=>handleClick(items.attributes.Name)} className={btnStyles}>&rsaquo; {items.attributes.Name
 }</button>
     ))}
  

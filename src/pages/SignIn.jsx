@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing eye icons
 
-import { getToken, setToken, setUserAllData } from "../utill/helpers";
+import { getToken, getUserData, setToken, setUserAllData } from "../utill/helpers";
 import { useAuthContext } from "../context/authContext";
 import { GloblaContext } from "../context";
 
@@ -41,11 +41,13 @@ const SignIn = () => {
         throw data?.error;
       } else {
         setLoading(false);
-        setToken(data.jwt);
-        setUser(data.user);
-        setUserAllData(data.user);
-        console.log(data.user);
+      await  setToken(data.jwt);
+      await  setUser(data.user);
+      await  setUserAllData(data.user);
         message.success(`Welcome back, ${data.user.username}`);
+        {data.user.positiion==="sporter" &&  fetchPayments()}
+       
+  
         navigate("/tables", { replace: true });
       }
     } catch (error) {
@@ -58,6 +60,80 @@ const SignIn = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+
+
+   async function fetchPayments(){
+
+    try {
+      const user = getUserData()
+       const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Add 1 because getMonth() returns a zero-based index
+
+    // Ensure month is two digits
+    const monthStr = month.toString().padStart(2, "0");
+
+    // Calculate the first day of the month
+    const startDate = `${year}-${monthStr}-01T00:00:00.000Z`;
+
+    // Calculate the last day of the month
+    const lastDay = new Date(year, month, 0).getDate(); // No need to add 1, getDate() gives us the last day
+    const endDate = `${year}-${monthStr}-${lastDay}T23:59:59.999Z`;
+      
+      const payments = await fetch(`${API}/payments?[filters][Email][$eq]=${email}&[filters][createdAt][$gte]=${startDate}&[filters][createdAt][$lte]=${endDate}`, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+
+      if (!payments.ok) {
+        throw new Error(payments.status);
+      }
+
+      const pay = await payments.json()
+      console.log("pays",pay)
+
+      {pay?.data.length=== 0 && sendemail()}
+
+
+   
+
+    } catch (error) {
+   
+      console.error("Error fetching posts:", error);
+      throw error;
+    }
+   }
+
+     async function sendemail(){
+         const user = getUserData()
+    try {
+      const response = await fetch('http://localhost:1337/api/email-test/exampleAction', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+             
+        },
+        body: JSON.stringify({
+          input: `dear ${user.name} please complete your payment in this month`,
+        emailTo: "taha.hussaini125@gmail.com"
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error.message || 'Failed to sign up.');
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+    }
+  
+  
+
 
   return (
     <>

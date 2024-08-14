@@ -33,7 +33,7 @@ const BlogDetails = () => {
           <div key={blog.id} className="flex flex-col 2xl:max-w-[900px] container mt-10 mb-10">
             <div className="overflow-hidden">
               <img
-                src={`http://localhost:1337${blog?.attributes?.Image?.data?.attributes?.url}`}
+                src={`${blog?.attributes?.Image?.data?.attributes?.url}`}
                 alt=""
                 className="block transition-all duration-300 hover:scale-110"
               />

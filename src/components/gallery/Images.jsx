@@ -18,7 +18,8 @@ function Images() {
         throw new Error(response.status);
       }
       const data = await response.json();
-      setgallery(data.data)
+  
+      setgallery(data)
     } catch (err) {
       console.log(err);
     }
@@ -30,10 +31,10 @@ function Images() {
   return (
    <div className="container">
         <div className=" grid gap-6 md:grid-cols-2 2xl:grid-cols-3">
-          {gallery?.map((item) => (
+          {gallery !== null && gallery?.data.map((item) => (
               <div className="overflow-hidden" key={item.id}>
                 <div className={imgStyles}>
-                  <img className="w-full h-full object-cover" src={`http://localhost:1337${item.attributes.Image?.data[0]?.attributes?.url}`} alt="" />
+                  <img className="w-full h-full object-cover" src={`${item.attributes.Image?.data[0]?.attributes?.url}`} alt="" />
                 </div>
               </div>
             ))}
